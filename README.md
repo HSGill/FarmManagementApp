@@ -8,7 +8,7 @@ Farm Management App is a web application built using Blazor WebAssembly and Mong
 - [Technology Stack](#technology-stack)
 - [Folder Structure](#folder-structure)
 - [Setup](#setup)
-- [Todo-Consideration/Imrovements ](#todo)
+- [Architecture](#architecture)
 
 ## Features
 
@@ -31,21 +31,26 @@ Farm Management App is a web application built using Blazor WebAssembly and Mong
 
 ## Folder Structure
 
-The project follows a clean folder structure for better organization:
+The Farm Management App follows a structured organization to maintain clarity and modularity in the codebase. Here's an overview of the main folders:
 
-- **FarmManagementApp:**
-  - **Models:**
-    - Contains classes representing the data structure, such as `Farm`, `Owner`, `Field`, and `Address`.
-  - **Services:**
-    - `FieldService.cs`: Handles operations related to fields data.
-    - `FarmService.cs`: Manages operations related to farms.
-  - **Pages:**
-    - Contains Blazor components for different pages, such as `Index.razor`(Farm Details Page) and `FieldList.razor`(Fields Page). It has a drawer component
-    - to add new field.
-  - **Shared:**
-    - Shared components, layouts, or utilities used across the application.
-  - **wwwroot:**
-    - Static files, such as images or CSS files.
+## 📁 FarmManagementApp.Client
+
+This folder contains the client-side Blazor WebAssembly application.
+
+- **📁 Models:**
+  - Contains the data models representing entities such as farms, fields, and owners.
+
+- **📁 Services:**
+  - Holds the services responsible for data retrieval, manipulation, and interaction with external APIs or databases.
+
+- **📁 Pages:**
+  - Razor components representing the various pages of the application.
+
+- **📁 Shared:**
+  - Contains shared components, layouts, or utilities used across multiple pages.
+
+- **📁 wwwroot:**
+  - Assets, styles, and client-side resources.
 
 ## Setup
 
@@ -58,11 +63,23 @@ The project follows a clean folder structure for better organization:
    git clone https://github.com/your-username/farm-management-app.git
    cd farm-management-app
 
-## Todo-Consideration/Imrovements
+## Architecture
 
--Create an API controller on the server side.
--Blazor WebAssembly client can make HTTP requests to the API endpoints.
--The approach is to use a server-side API, such as an http://ASP.NET  Core Web API, as an intermediary between your Blazor WebAssembly application and the MongoDB database. The API handles database connections, executes queries securely, and exposes controlled endpoints for the client-side application to interact with.
+The application follows a client-server architecture:
 
-**Reason**The MongoDB driver tries to start a new thread, but this operation is not supported in the context of Blazor WebAssembly. Threads in Blazor WebAssembly are limited compared to traditional server-side .NET applications. This would be downside but 
-In Blazor WebAssembly, you don't have access to certain APIs and features that are available on the server side, and threading is one of those limitations. MongoDB driver's attempt to start a new thread is causing PlatformNotSupportedException exception.
+- **Client Side (Blazor WebAssembly):**
+  - The client-side application is built using Blazor WebAssembly.
+  - It interacts with the server-side API to fetch and manipulate data.
+
+- **Server Side (ASP.NET Core Web API):** (This has to be implemented)
+  - An ASP.NET Core Web API acts as an intermediary between the Blazor WebAssembly client and the MongoDB database.
+  - The API handles database connections, executes queries securely, and exposes controlled endpoints for client-side interactions.
+
+## MongoDB Driver Compatibility Issue
+
+The MongoDB driver attempts to start a new thread, which is not supported in the context of Blazor WebAssembly. Threads in Blazor WebAssembly are limited compared to traditional server-side .NET applications. This limitation results in a `PlatformNotSupportedException` exception.
+
+## Solution
+
+To address this issue, the recommended approach is to use a server-side API. This API acts as a secure intermediary between the client-side Blazor WebAssembly application and the MongoDB database. It ensures proper handling of database connections and queries, adhering to the constraints of Blazor WebAssembly.
+
