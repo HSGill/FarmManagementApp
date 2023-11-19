@@ -9,7 +9,7 @@ Farm Management App is a web application built using Blazor WebAssembly and Mong
 - [Folder Structure](#folder-structure)
 - [Setup](#setup)
 - [Architecture](#architecture)
-
+- [Trello Board for Planning](#trello-board-for-planning)
 ## Features
 
 1. **Farm Details:**
@@ -82,4 +82,11 @@ The MongoDB driver attempts to start a new thread, which is not supported in the
 ## Solution
 
 To address this issue, the recommended approach is to use a server-side API. This API acts as a secure intermediary between the client-side Blazor WebAssembly application and the MongoDB database. It ensures proper handling of database connections and queries, adhering to the constraints of Blazor WebAssembly.
+
+# Trello Board for Planning
+
+For collaborative planning and tracking of tasks, I used Trello. Visit Trello Board to stay updated on project progress, upcoming features, and tasks in the pipeline. There are few tasks outstanding Please feel free to assign it to yourself.
+
+👉 [Farm Management System Trello Board](https://trello.com/invite/b/57Vp9OuV/ATTIc48bb85d58572a52b15232193ad7ede8BDBD78B7/farm-management-system)
+
 
