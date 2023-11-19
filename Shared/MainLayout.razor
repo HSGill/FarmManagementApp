@@ -1,17 +1,37 @@
 ﻿@inherits LayoutComponentBase
 
+@using FarmManagementApp.Services
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 <div class="page">
     <div class="sidebar">
         <NavMenu />
     </div>
-
     <main>
         <div class="top-row px-4">
-            <a href="" target="_blank">About</a>
+            <span> <b>Farm:</b> @FarmName | <b>Owner:</b> @OwnerName</span>
         </div>
-
         <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
+@code {
+    private string FarmName { get; set; }
+    private string OwnerName { get; set; }
+
+    // Inject your farm service here
+    [Inject]
+    private IFarmService FarmService { get; set; }
+
+    protected override void OnInitialized()
+    {
+        // Retrieve farm details from the service
+        var farm = FarmService.GetFarmDetails();
+
+        // Assign values to display in the layout
+        FarmName = farm.Name;
+        OwnerName = $"{farm.FarmOwner.FirstName} {farm.FarmOwner.LastName}";
+    }
+}

@@ -12,5 +12,6 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 // Add MudBlazor services
 builder.Services.AddMudServices();
 builder.Services.AddScoped<IFarmService, FarmService>();
+builder.Services.AddScoped<FieldService>();
 
 await builder.Build().RunAsync();
