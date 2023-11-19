@@ -1,0 +1,119 @@
+﻿@page "/fields"
+
+@using FarmManagementApp.Models
+@using FarmManagementApp.Services
+@using MudBlazor
+@inject FieldService FieldService
+
+<MudContainer>
+    <!-- Search Inputs -->
+    <div class="mb-3">
+        <MudTextField @bind-Value="@nameSearch" Label="Search by Name" Variant="Variant.Filled" TextChanged="@HandleFilterChange" />
+    </div>
+    <MudTable Items="@FilteredFields" RowId="field => field.Id">
+        <HeaderContent>
+            <MudTh>Field Name</MudTh>
+            <MudTh>Field Area</MudTh>
+            <MudTh>Field Use</MudTh>
+            <MudTh>Product</MudTh>
+            <MudTh>Expected Yield</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.Name</MudTd>
+                <MudTd>@context.Area</MudTd>
+                <MudTd>@context.Use</MudTd>
+                <MudTd>@context.Product</MudTd>
+                <MudTd>@context.ExpectedYield</MudTd>
+            </RowTemplate>
+        </MudTable>
+ 
+
+        <!-- Add Field Drawer -->
+        <MudButton Variant="Variant.Filled" OnClick="@(() => OpenDrawer(Anchor.End))">Add Field</MudButton>
+
+    </MudContainer>
+    <MudDrawer @bind-Open="@open" Anchor="@anchor" Elevation="3" Variant="@DrawerVariant.Temporary">
+        <MudDrawerHeader>
+            <MudText Typo="Typo.h6">Field Details - Add</MudText>
+        </MudDrawerHeader>
+        <!-- Add Field Form -->
+        <MudContainer>
+        <EditForm Model="@newField" OnValidSubmit="AddField">
+            <MudTextField @bind-Value="@newField.Name" Label="Field Name" Required="true" />
+
+            <MudNumericField @bind-Value="@newField.Area" Label="Field Area" Required="true" />
+
+            <MudTextField @bind-Value="@newField.Use" Label="Field Use" Required="true" />
+
+            <MudTextField @bind-Value="@newField.Product" Label="Product" />
+
+            <MudNumericField @bind-Value="@newField.ExpectedYield" Label="Expected Yield" />
+
+            <div class="mt-3">
+                <MudButton Type="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Add Field</MudButton>
+            </div>
+        </EditForm>
+        </MudContainer>
+    </MudDrawer>
+
+
+
+    @code {
+    private List<Field> Fields = new List<Field>();
+    private List<Field> FilteredFields = new List<Field>();
+    bool open;
+    Anchor anchor;
+    private Field newField = new Field();
+
+    // Search criteria
+    private string nameSearch = "";
+    private List<string> selectedFieldUses = new List<string>();
+    private List<string> selectedProducts = new List<string>();
+
+    // Method to filter the fields based on search criteria
+    private void FilterFields()
+    {
+        // Apply filters to the Fields list
+        FilteredFields = Fields
+            .Where(field =>
+                (string.IsNullOrWhiteSpace(nameSearch) || field.Name.Contains(nameSearch, StringComparison.OrdinalIgnoreCase)))
+            .ToList();
+    }
+
+    protected override void OnInitialized()
+    {
+        // Retrieve fields from the service
+        Fields = FieldService.GetFields();
+    }
+    private IEnumerable<string> GetDistinctProducts()
+    {
+        return Fields.Select(f => f.Product).Distinct();
+    }
+
+    void OpenDrawer(Anchor anchor)
+    {
+        open = true;
+        this.anchor = anchor;
+    }
+
+    private void AddField()
+    {
+        // Add the new field to the service and update the list
+        FieldService.AddField(newField);
+        Fields = FieldService.GetFields();
+
+        // Close the drawer
+        open = false;
+
+        // Reset the new field model
+        newField = new Field();
+
+        // Update the filtered fields
+        FilterFields();
+    }
+    // Handle changes to filters
+    private void HandleFilterChange()
+    {
+        FilterFields();
+    }
+}

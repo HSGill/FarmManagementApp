@@ -16,7 +16,7 @@ namespace FarmManagementApp.Services {
             // Initialize with sample data or load from storage
             _farm = new Farm
             {
-                Name = "Sample Farm",
+                Name = "Farm 1",
                 TotalArea = 100,
                 FarmAddress = new Address
                 {

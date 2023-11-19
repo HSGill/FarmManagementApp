@@ -1,7 +1,103 @@
 ﻿@page "/"
+@using FarmManagementApp.Models
+@using FarmManagementApp.Services
+@using MudBlazor
 
-<PageTitle>FMA</PageTitle>
+<MudContainer>
+    <MudPaper Class="p-3" BackgroundColor="grey">
+        <div>
+            <h2 >Farm Details</h2>
+        </div>
 
-<h1>Hello, world!</h1>
+        @if (isEditMode)
+        {
+            <EditForm Model="@farm" OnValidSubmit="HandleSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
 
-Welcome to your new app.
+                <MudTextField Label="Farm Name" @bind-Value="farm.Name" Class="mb-3" />
+                <MudNumericField Label="Total Area (in acres)" @bind-Value="farm.TotalArea" Class="mb-3" />
+
+                <MudCard Class="mb-3">
+                    <MudCardContent>
+                        <div class="mb-3">
+                            <h6><strong>Address</strong></h6>
+                        </div>
+                        <MudTextField Label="Country" @bind-Value="farm.FarmAddress.Country" Class="mb-2" />
+                        <MudTextField Label="State" @bind-Value="farm.FarmAddress.State" Class="mb-2" />
+                        <MudTextField Label="Address Line" @bind-Value="farm.FarmAddress.AddressLine" Class="mb-2" />
+                        <MudTextField Label="ZIP" @bind-Value="farm.FarmAddress.ZIP" Class="mb-2" />
+                    </MudCardContent>
+                </MudCard>
+
+                <MudCard Class="mb-3">
+                    <MudCardContent>
+                        <div class="mb-3">
+                            <h6><strong>Owner Details</strong></h6>
+                        </div>
+                        <MudTextField Label="First Name" @bind-Value="farm.FarmOwner.FirstName" Class="mb-2" />
+                        <MudTextField Label="Last Name" @bind-Value="farm.FarmOwner.LastName" Class="mb-2" />
+                        <MudTextField Label="Email Address" @bind-Value="farm.FarmOwner.EmailAddress" Class="mb-2" />
+                        <MudTextField Label="Phone Number" @bind-Value="farm.FarmOwner.PhoneNumber" Class="mb-2" />
+                    </MudCardContent>
+                </MudCard>
+
+                <div class="mb-3">
+                    <MudButton @onclick="ToggleEditMode" Type="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Save</MudButton>
+                </div>
+            </EditForm>
+        }
+        else
+        {
+            <div>
+                <div class="mb-1">
+                    <p><strong>Farm Name:</strong> @farm.Name</p>
+                </div>
+                <div class="mb-2">
+                    <p><strong>Total Area:</strong> @farm.TotalArea acres</p>
+                </div>
+                <div class="mb-2">
+                    <p><strong>Address:</strong> @farm.FarmAddress.Country, @farm.FarmAddress.State, @farm.FarmAddress.AddressLine, @farm.FarmAddress.ZIP</p>
+                </div>
+                <div class="mb-2">
+                    <p><strong>Owner:</strong> @farm.FarmOwner.FirstName @farm.FarmOwner.LastName</p>
+                </div>
+                <div class="mb-2">
+                    <p><strong>Email Address:</strong> @farm.FarmOwner.EmailAddress</p>
+                </div>
+                <div class="mb-2">
+                    <p><strong>PhoneNumber:</strong> @farm.FarmOwner.PhoneNumber</p>
+                </div>
+                <div class="mb-3">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="ToggleEditMode">Edit</MudButton>
+                </div>
+            </div>
+
+        }
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private bool isEditMode = false;
+    private Farm farm;
+    [Inject]
+    private IFarmService farmService { get; set; }
+
+    protected override void OnInitialized()
+    {
+        // Retrieve farm details from the service
+        farm = farmService.GetFarmDetails();
+    }
+
+    private void ToggleEditMode()
+    {
+        isEditMode = !isEditMode;
+    }
+
+    private void HandleSubmit()
+    {
+        // Update farm details using the service
+        farmService.UpdateFarmDetails(farm);
+        ToggleEditMode();
+    }
+}
