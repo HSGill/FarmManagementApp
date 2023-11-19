@@ -8,9 +8,7 @@ Farm Management App is a web application built using Blazor WebAssembly and Mong
 - [Technology Stack](#technology-stack)
 - [Folder Structure](#folder-structure)
 - [Setup](#setup)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+- [Todo-Consideration/Imrovements ](#todo)
 
 ## Features
 
@@ -59,3 +57,12 @@ The project follows a clean folder structure for better organization:
    ```bash
    git clone https://github.com/your-username/farm-management-app.git
    cd farm-management-app
+
+## Todo-Consideration/Imrovements
+
+-Create an API controller on the server side.
+-Blazor WebAssembly client can make HTTP requests to the API endpoints.
+-The approach is to use a server-side API, such as an http://ASP.NET  Core Web API, as an intermediary between your Blazor WebAssembly application and the MongoDB database. The API handles database connections, executes queries securely, and exposes controlled endpoints for the client-side application to interact with.
+
+**Reason**The MongoDB driver tries to start a new thread, but this operation is not supported in the context of Blazor WebAssembly. Threads in Blazor WebAssembly are limited compared to traditional server-side .NET applications. This would be downside but 
+In Blazor WebAssembly, you don't have access to certain APIs and features that are available on the server side, and threading is one of those limitations. MongoDB driver's attempt to start a new thread is causing PlatformNotSupportedException exception.
