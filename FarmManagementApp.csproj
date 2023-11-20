@@ -7,6 +7,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="src\FarmManagementClient\wwwroot\css\app.css" />
+    <Content Include="src\FarmManagementClient\wwwroot\css\bootstrap\bootstrap.min.css" />
+    <Content Include="src\FarmManagementClient\wwwroot\css\bootstrap\bootstrap.min.css.map" />
+    <Content Include="src\FarmManagementClient\wwwroot\css\open-iconic\FONT-LICENSE" />
+    <Content Include="src\FarmManagementClient\wwwroot\css\open-iconic\font\css\open-iconic-bootstrap.min.css" />
+    <Content Include="src\FarmManagementClient\wwwroot\css\open-iconic\font\fonts\open-iconic.eot" />
+    <Content Include="src\FarmManagementClient\wwwroot\css\open-iconic\font\fonts\open-iconic.otf" />
+    <Content Include="src\FarmManagementClient\wwwroot\css\open-iconic\font\fonts\open-iconic.svg" />
+    <Content Include="src\FarmManagementClient\wwwroot\css\open-iconic\font\fonts\open-iconic.ttf" />
+    <Content Include="src\FarmManagementClient\wwwroot\css\open-iconic\font\fonts\open-iconic.woff" />
+    <Content Include="src\FarmManagementClient\wwwroot\css\open-iconic\ICON-LICENSE" />
+    <Content Include="src\FarmManagementClient\wwwroot\css\open-iconic\README.md" />
+    <Content Include="src\FarmManagementClient\wwwroot\favicon.png" />
+    <Content Include="src\FarmManagementClient\wwwroot\icon-192.png" />
+    <Content Include="src\FarmManagementClient\wwwroot\index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.13" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
